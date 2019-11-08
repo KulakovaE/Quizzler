@@ -15,40 +15,51 @@ class ViewController: UIViewController {
     @IBOutlet weak var falseBtn: UIButton!
     @IBOutlet weak var progressBar: UIProgressView!
     
-    let quiz = [ ["Bear has two legs.", "True" ],
-                 ["2 + 2 = 3", "False"],
-                 ["My son name is Kristofer.", "True"]
+    let quiz = [
+        Question(text: "My name is Elena", answer: "True"),
+        Question(text: "I have son", answer: "True"),
+        Question(text: "I am single", answer: "False"),
+        Question(text: "I am 65 kilos", answer: "False"),
+        Question(text: "I am blond", answer: "False"),
+        Question(text: "I am singer", answer: "True"),
+        Question(text: "My shoe number size is 38", answer: "True"),
     ]
     
     var questionNumber = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        updateUI()
-        
-        
+        progressBar.progress = 0.0
+        updateUI() 
     }
+    
     
     @IBAction func answerPressed(_ sender: UIButton) {
         let userAnswer = sender.currentTitle// True/False
-        let actualAnswer = quiz[questionNumber][1]
+        //le t actualQuestion = quiz[questionNumber].text
+        let actualAnswer = quiz[questionNumber].answer
         
         if userAnswer == actualAnswer {
-            print("Right")
+            sender.backgroundColor = UIColor.systemGreen
         } else {
-            print("Not right")
+            sender.backgroundColor = UIColor.systemRed
         }
         
-        if questionNumber + 1 <= 2 { // quiz.count
+        if questionNumber + 1 <= 6 { // quiz.count
             questionNumber += 1
-            updateUI()
+            
         } else {
             questionNumber = 0
         }
+        
+        Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(updateUI), userInfo: nil, repeats: false)
     }
     
-    func updateUI() {
-        questionLabel.text = quiz[questionNumber][0]
+    @objc func updateUI() {
+        questionLabel.text = quiz[questionNumber].text
+        trueBtn.backgroundColor = UIColor.clear
+        falseBtn.backgroundColor = UIColor.clear
+        progressBar.progress = Float(questionNumber + 1) / Float(quiz.count)
     }
 }
 
