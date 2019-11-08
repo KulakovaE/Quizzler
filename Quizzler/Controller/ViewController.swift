@@ -15,29 +15,19 @@ class ViewController: UIViewController {
     @IBOutlet weak var falseBtn: UIButton!
     @IBOutlet weak var progressBar: UIProgressView!
     
-    let quiz = [
-        Question(text: "My name is Elena", answer: "True"),
-        Question(text: "I have son", answer: "True"),
-        Question(text: "I am single", answer: "False"),
-        Question(text: "I am 65 kilos", answer: "False"),
-        Question(text: "I am blond", answer: "False"),
-        Question(text: "I am singer", answer: "True"),
-        Question(text: "My shoe number size is 38", answer: "True"),
-    ]
-    
-    var questionNumber = 0
+    var quizBrain = QuizBrain()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         progressBar.progress = 0.0
-        updateUI() 
+        updateUI()  
     }
     
     
     @IBAction func answerPressed(_ sender: UIButton) {
-        let userAnswer = sender.currentTitle// True/False
-        //le t actualQuestion = quiz[questionNumber].text
-        let actualAnswer = quiz[questionNumber].answer
+        let userAnswer = sender.currentTitle! // True/False
+        quizBrain.checkAnswer(userAnswer)
+       
         
         if userAnswer == actualAnswer {
             sender.backgroundColor = UIColor.systemGreen
